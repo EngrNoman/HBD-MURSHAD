@@ -187,7 +187,7 @@
       align-items: center;
       position: absolute;
       top: 0;
-      left: 0;
+      left: -4px;
       width: 100%; /* Full width of the screen */
       height: 60px; /* Height of the line */
       background: #f0f0f0; /* Background color for the line */
@@ -382,7 +382,7 @@
       heart.className = 'heart';
 
       // Random horizontal position
-      const randomLeft = Math.random() * 100; // Random percentage for left position
+      const randomLeft = Math.random() * 80; // Random percentage for left position
       heart.style.left = `${randomLeft}vw`;
 
       // Random animation duration for variety
@@ -479,7 +479,19 @@ backgroundMusic.addEventListener( 'loadedmetadata', ()=>{
       // document.body.style.backgroundSize = "cover"; 
       document.body.style.backgroundPosition = "center"; // Center the image
       document.body.style.backgroundRepeat = "no-repeat"; // Prevent tiling
-       
+      function updateBackgroundSize() {
+  if (window.innerWidth <= 500) {
+    document.body.style.backgroundSize = "cover";  // Set background-size to cover for screens <= 500px
+  } else {
+    document.body.style.backgroundSize = "auto";  // Default background-size for larger screens
+  }
+}
+
+// Initial call to set background size based on current window size
+updateBackgroundSize();
+
+// Listen for window resize and update background size dynamically
+window.addEventListener('resize', updateBackgroundSize);
       decorateBtn.textContent = 'Fly the ballon';
 
       // Change button behavior after decoration
@@ -501,7 +513,22 @@ backgroundMusic.addEventListener( 'loadedmetadata', ()=>{
       div8.style.display = 'block';
       cake.style.display = 'none';
 
-      
+      function updateBackgroundSize() {
+  if (window.innerWidth <= 500) {
+      // Set background-size to cover for screens <= 500px
+      circleLine.style.display='none';
+      div8.style.fontSize = "10px";  // Set the body font size to 10px
+      balloonsContainer.style.display = 'none'
+  } else {
+    document.body.style.backgroundSize = "auto";  // Default background-size for larger screens
+  }
+}
+
+// Initial call to set background size based on current window size
+updateBackgroundSize();
+
+// Listen for window resize and update background size dynamically
+window.addEventListener('resize', updateBackgroundSize);
 
 
       })
