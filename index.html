@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Divs with Rotating Hearts</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Macondo&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Smooch+Sans:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+    /* Fullscreen styling */
+    body, html {
+      
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      /* background: linear-gradient(120deg, #f5e6f8, #dcd8f3); */
+      background-color: #ffe5ea;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Heart styling */
+    .heart {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: pink;
+      transform: rotate(-45deg);
+      animation: flyUp 40s linear infinite;
+    }
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: pink;
+      border-radius: 50%;
+      top: -15px;
+      left: 0;
+    }
+    .heart::after {
+      top: 0;
+      left: 15px;
+    }
+
+    /* Flying and rotating animation */
+    @keyframes flyUp {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(-50vh) rotate(180deg);
+      }
+      100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Container styling */
+    .container {
+      font-family: "Macondo", serif;
+  font-weight: 400;
+  font-style: normal;
+      width: 80%;
+      max-width: 600px;
+      text-align: center;
+      /* background: white; */
+      background-color: #d9d9d9;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .content {
+      display: none;
+      font-size: 1.5rem;
+      font-weight: bold;
+      opacity: 0;
+      animation: fadeInDiv 1s forwards;
+    }
+
+    .content:first-child {
+      display: block;
+    }
+
+    .action-btn {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transform: scale(0);
+      animation: buttonZoom 2s forwards;
+      animation-delay: 1s;
+    }
+
+    #yesBtn {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    #noBtn {
+      background-color: #f44336;
+      color: white;
+    }
+
+
+    #lightOnBtn {
+      position: fixed;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background-color: yellow;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      display: none;
+    }
+
+    #playMusicBtn , #decorateBtn{
+      position: fixed;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInDiv {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes buttonZoom {
+      from {
+        transform: scale(0);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+
+
+
+     /* Styling for the container holding circles */
+     .circle-line {
+
+      display: none;
+      justify-content: space-around; /* Space between circles */
+      align-items: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%; /* Full width of the screen */
+      height: 60px; /* Height of the line */
+      background: #f0f0f0; /* Background color for the line */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 998; /* Ensure circles are below buttons */
+
+    }
+
+    /* Styling for individual circles */
+    .circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: red;
+      animation: pulse 2s infinite;
+    }
+
+    /* Animating the circles */
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+   #decorImage.animate {
+    animation: moveDown 2s ease-out forwards;
+  }
+
+  @keyframes moveDown {
+    from {
+      top: -200px;
+    }
+    to {
+      top: 100px;
+    }
+  }
+
+
+  .content i {
+  display: block; /* Ensure the icon appears on its own line */
+  font-size: 2rem; /* Size of the star icon */
+  color: gold; /* Star color */
+  margin-bottom: 0.5rem; /* Space between the icon and text */
+}
+  </style>
+   <script>
+    function navigateToOtherPage() {
+      window.location.href = "cake.html";
+    }
+  </script>
+</head>
+<body>
+  <div class="container" id="container">
+    <div class="content" id="div1">
+      <i class="fas fa-star"></i>
+
+      <p>Welcome Toniii!♥
+        .</p>
+    </div>
+    <div class="content" id="div2">
+      <i class="fas fa-star"></i>
+
+      <p>Get ready for a journey full of surprises!</p>
+    </div>
+    <div class="content" id="div3">
+      <i class="fas fa-star"></i>
+
+      <p>Hold tight, an exciting message is just around the corner!</p>
+    </div>
+    <div class="content" id="div4">
+      <i class="fas fa-star"></i>
+
+      <p>You're almost there! One last step before the big reveal.
+      </p>
+    </div>
+    <div class="content" id="div5">
+      <p>Thank you for joining the celebration. Please make a choice to see the surprise</p>
+      <button class="action-btn" id="yesBtn">Yes</button>
+      <button class="action-btn" id="noBtn">No</button>
+    </div>
+    <div class="content" id="div6" style="display: none; opacity: 0;">
+      <i class="fas fa-star"></i>
+
+      <p>Tadaaa.. Here you go
+      </p>
+    </div>
+    <div class="content" id="div7" style="display: none; opacity: 0;">
+      <i class="fas fa-star"></i>
+
+      <p>Aren't you ready to see the surprise..☹ Next time then. :).</p>
+    <button class="action-btn" id="yesFromNoBtn">Yes</button>
+
+    </div>
+    <div class="content" id="div8" style="display: none; opacity: 0;">
+      <i class="fas fa-star"></i>
+
+      <p>Happy Birthday to the one who means
+        "The world to me!"♥
+       
+       I can't put into words how thankful I am for you-for coming into my life and filling it with so much light. Thank you for being the reason behind my smiles, for understanding me like no one else can, and for standing by my side no matter what life throws our way.
+       
+       You're my blessing from the universe, my proof that miracles do happen. I'll always be grateful for the day I found you, and even more grateful that you stayed.
+       
+       Today is all about celebrating you, the beautiful soul that makes my every day so much brighter. Have the most amazing birthday-you deserve nothing less!</p>
+    
+
+    </div>
+
+  </div>
+  <div class="circle-line" id="circleLine">
+    <!-- Circles will be dynamically added by JavaScript -->
+  </div>
+  <button id="lightOnBtn">Light On</button>
+  <button id="playMusicBtn">Play Music</button>
+  <button id="decorateBtn" style="display: none;">Decorate</button>
+
+  <!-- Add this audio element to your HTML body -->
+<audio id="backgroundMusic" loop>
+  <source src="hb.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<!-- Image element for decoration -->
+<img id="decorImage" src="hb.jpeg" alt="Decoration" style="display: none; position: absolute; top: -400px; left: 50%; transform: translateX(-50%); z-index: 1; width: 500px; height: auto; margin-top: 70px;">
+
+
+<div class="cake" id="cake">
+  <div class="plate"></div>
+  <div class="layer layer-bottom"></div>
+  <div class="layer layer-middle"></div>
+  <div class="layer layer-top"></div>
+  <div class="icing"></div>
+  <div class="drip drip1"></div>
+  <div class="drip drip2"></div>
+  <div class="drip drip3"></div>
+  <div class="candle">
+      <div class="flame"></div>
+  </div>
+</div>
+
+  <section class="balloons-conatiner" id="balloons-container">
+      <div class="balloon yellow" ></div>
+      <div class="balloon blue"   ></div>
+      <div class="balloon purple" ></div>
+      <div class="balloon red"    ></div>
+      <div class="balloon cyan"   ></div>
+      <!-- infinite-->
+      <div class="balloon pink"   ></div>
+      <div class="balloon orange" ></div>
+      <div class="balloon blue"   ></div>
+      <div class="balloon yellow" ></div>
+      <div class="balloon purple" ></div>
+      <div class="balloon green"  ></div>             
+      <div class="balloon cyan"   ></div>
+      <div class="balloon red"    ></div>
+  </section>
+
+
+
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const yesFromNoBtn = document.getElementById('yesFromNoBtn');
+    const lightOnBtn = document.getElementById('lightOnBtn');
+    const playMusicBtn = document.getElementById('playMusicBtn');
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    const div5 = document.getElementById('div5');
+    const div6 = document.getElementById('div6');
+    const div7 = document.getElementById('div7');
+    const container = document.getElementById('container');
+    const circleLine = document.getElementById('circleLine');
+
+    const decorateBtn = document.getElementById('decorateBtn');
+    const decorImage = document.getElementById('decorImage');
+    const cake = document.getElementById('cake');
+    const balloons_container = document.getElementById('balloons-container')
+    const div8 = document.getElementById('div8');
+    
+       // div5.style.display = 'block';
+
+
+       
+    // Function to create a heart element
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+
+      // Random horizontal position
+      const randomLeft = Math.random() * 100; // Random percentage for left position
+      heart.style.left = `${randomLeft}vw`;
+
+      // Random animation duration for variety
+      const randomDuration = Math.random() * 3 + 3; // Between 3s to 6s
+      heart.style.animationDuration = `${randomDuration}s`;
+
+      // Append heart to the body
+      document.body.appendChild(heart);
+
+      // Remove heart after animation ends
+      heart.addEventListener('animationend', () => {
+        heart.remove();
+      });
+    }
+    
+    setInterval(createHeart, 500);
+
+    // Dynamic div transitions
+    const contents = document.querySelectorAll('.content');
+    let currentIndex = 0;
+
+    function showNextDiv() {
+      contents.forEach(div => {
+        div.style.display = 'none';
+        div.style.opacity = '0';
+      });
+
+      contents[currentIndex].style.display = 'block';
+      setTimeout(() => {
+        contents[currentIndex].style.opacity = '1';
+      }, 100);
+
+      currentIndex++;
+      if (currentIndex === 5) clearInterval(interval);
+    }
+
+    const interval = setInterval(showNextDiv, 3000);
+
+    
+
+     // Yes button logic
+yesBtn.addEventListener('click', () => handleYesClick());
+
+// No button logic
+noBtn.addEventListener('click', () => {
+  div5.style.display = 'none';
+  div7.style.display = 'block';
+});
+
+// Yes from No button logic
+yesFromNoBtn.addEventListener('click', () => handleYesClick());
+
+lightOnBtn.addEventListener('click', () => {
+      document.body.style.backgroundColor = '#f5e6f8';
+      lightOnBtn.style.display = 'none';
+      playMusicBtn.style.display = 'block';
+      circleLine.style.display = 'flex'
+    });
+
+function handleYesClick() {
+  div5.style.display = 'none';
+  div7.style.display = 'none';
+  div6.style.display = 'block';
+
+  setTimeout(() => {
+      container.style.display = 'none';
+      document.body.style.background = '#000';
+      lightOnBtn.style.display = 'block';
+      }, 5000);
+    }
+
+    playMusicBtn.addEventListener('click', () => {
+      playMusicBtn.style.display = 'none';
+      decorateBtn.style.display = 'block';
+      backgroundMusic.play(); // Play the music
+    
+    });
+
+backgroundMusic.addEventListener( 'loadedmetadata', ()=>{
+  backgroundMusic.currentTime = 27;
+})
+    // decorateBtn.addEventListener('click', () => {
+    //   decorImage.style.display = 'block';
+    // decorImage.classList.add('animate');
+    // });
+
+    decorateBtn.addEventListener('click', () => {
+      // Show the image with animation
+      // decorImage.style.display = 'block';
+      // decorImage.style.display = 'block';
+      // decorImage.style.display = 'block';
+      // decorImage.classList.add('animate');  
+      document.body.style.backgroundImage = "url('./bg-murshad.png')";
+      // document.body.style.backgroundSize = "cover"; 
+      document.body.style.backgroundPosition = "center"; // Center the image
+      document.body.style.backgroundRepeat = "no-repeat"; // Prevent tiling
+       
+      decorateBtn.textContent = 'Fly the ballon';
+
+      // Change button behavior after decoration
+      decorateBtn.removeEventListener('click', this);
+      decorateBtn.addEventListener('click', () => {
+        cake.style.display = 'flex';
+        balloons_container.style.display = 'flex';
+        
+        decorateBtn.textContent = 'Cut the cake';
+        
+      decorateBtn.removeEventListener('click', this);
+      decorateBtn.addEventListener('click', () => {
+       decorateBtn.textContent = 'Have a Massage for You';
+      decorateBtn.removeEventListener('click', this);
+      decorateBtn.addEventListener('click', () => {
+      container.style.display = 'block';
+      div6.style.display = 'none';
+      decorateBtn.style.display ='none'
+      div8.style.display = 'block';
+      cake.style.display = 'none';
+
+      
+
+
+      })
+        
+      })
+
+      });
+    });
+
+const colors = ['#ff6666', '#66b3ff', '#99ff99', '#ffcc99', '#ff99ff', '#ccccff', '#ffff99', '#ffb366', '#ff9966', '#66ffcc'];
+
+// Generate 8-10 small circles with random colors
+for (let i = 0; i < 10; i++) {
+  const circle = document.createElement('div');
+  circle.className = 'circle';
+  circle.style.backgroundColor = colors[i % colors.length];
+  circleLine.appendChild(circle);
+}
+
+
+
+
+
+ /* Demo intro for www.eightyears.co.uk
+looks better on site with icon-font ballons
+*/
+
+//Intro Balloon Pops - colour changes
+var balloonsContainer = document.getElementById("balloons-container"),
+    balloons = balloonsContainer.childNodes,
+    introTitle = document.getElementById('intro-title'),
+    introSub = document.getElementById('intro-sub'),
+    introBut = document.getElementById('intro-button');
+
+for (var i = 0; i < balloons.length; i++) {
+    var balloon = balloons[i];
+    balloon.addEventListener('click', pop, false);
+}     
+
+function pop(e) {
+    var element = e.target;
+    if (element.classList.contains('yellow')) {
+        intro.style.background = 'rgb(235,255,20)';
+        introBut.className = "button-yellow";
+        if (introTitle.style.color !== 'rgb(51,51,51)') {
+             introTitle.style.color = 'rgb(51,51,51)';
+             introSub.style.color   = 'rgba(51,51,51,.8)';
+        }
+    }
+    else if (element.classList.contains('blue')) {
+        intro.style.background = 'rgb(39,20,255)';
+        introBut.className = "button-blue";
+        if (introTitle.style.color !== 'rgb(255,255,255)') {
+            introTitle.style.color = 'rgb(255,255,255)';
+            introSub.style.color   = 'rgba(255,255,255,.8)';
+        }
+    }
+     else if (element.classList.contains('purple')) {
+         intro.style.background = 'rgb(189,96,255)';
+         introBut.className = "button-purple";
+         if (introTitle.style.color !== 'rgb(255,255,255)') {
+             introTitle.style.color = 'rgb(255,255,255)';
+             introSub.style.color   = 'rgba(255,255,255,.8)';
+         }
+    }
+      else if (element.classList.contains('red')) {
+          intro.style.background = 'rgb(255,39,20)';
+          introBut.className = "button-red";
+          if (introTitle.style.color !== 'rgb(255,255,255)') {
+              introTitle.style.color = 'rgb(255,255,255)';
+              introSub.style.color   = 'rgba(255,255,255,.8)';
+         }    
+    }
+      else if (element.classList.contains('cyan')) {
+          intro.style.background = 'rgb(20,235,255)';
+          introBut.className = "button-cyan";
+          if (introTitle.style.color !== 'rgb(255,255,255)') {
+              introTitle.style.color = 'rgb(255,255,255)';
+              introSub.style.color   = 'rgba(255,255,255,.8)';
+         }
+    }
+      else if (element.classList.contains('pink')) {
+          intro.style.background = 'rgb(255,138,187)';
+          introBut.className = "button-pink";
+          if (introTitle.style.color !== 'rgb(255,255,255)') {
+              introTitle.style.color = 'rgb(255,255,255)';
+              introSub.style.color   = 'rgba(255,255,255,.8)';
+          }
+    }
+      else if (element.classList.contains('green')) {
+          intro.style.background = 'rgb(20,189,34)';
+          introBut.className = "button-green";
+          if (introTitle.style.color !== 'rgb(255,255,255)') {
+              introTitle.style.color = 'rgb(255,255,255)';
+              introSub.style.color   = 'rgba(255,255,255,.8)';
+         }
+    }
+      else if (element.classList.contains('orange')) {
+          intro.style.background = 'rgb(255,171,53)';
+          introBut.className = "button-orange";
+          if (introTitle.style.color !== 'rgb(255,255,255)') {
+              introTitle.style.color = 'rgb(255,255,255)';
+              introSub.style.color   = 'rgba(255,255,255,.8)';
+          }
+    }   
+    element.style.display = "none";
+    e.preventDefault();
+    e.stopPropagation();
+}
+
+  </script>
+</body>
+</html>
